@@ -1,0 +1,4 @@
+name: SkratchPlugin
+version: '${version}'
+main: me.wally.skratchplugin.SkratchPlugin
+api-version: 1.19

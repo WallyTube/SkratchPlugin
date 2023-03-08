@@ -1,0 +1,2 @@
+Command: C:\Users\wally\.jdks\corretto-17.0.6\bin\java.exe -Dpaperclip.patchonly=true -classpath C:\Users\wally\IdeaProjects\SkratchPlugin\.gradle\caches\paperweight\setupCache\extractDevBundle.dir\data\paperclip-mojang+yarn.jar io.papermc.paperclip.Main
+Applying patches
