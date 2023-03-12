@@ -1,15 +1,11 @@
 plugins {
     `java-library`
-    id("io.papermc.paperweight.userdev") version "1.4.0"
 }
 
-group = "me.plexpvp"
+group = "me.skratchplugin"
 version = "1.0-SNAPSHOT"
 
 tasks {
-    assemble {
-        dependsOn(reobfJar)
-    }
 
     compileJava {
         options.encoding = Charsets.UTF_8.name()
@@ -32,5 +28,5 @@ repositories {
 }
 
 dependencies {
-    paperDevBundle("1.19.3-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
 }

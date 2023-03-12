@@ -2911,12 +2911,12 @@
      }
  
      public void sendPlayerChatMessage(PlayerChatMessage message, ChatType.Bound params) {
-+        // Paper start
++        // CraftBukkit start - SPIGOT-7262: if hidden we have to send as disguised message. Query whether we should send at all (but changing this may not be expected).
 +        if (!this.getCraftPlayer().canSee(message.link().sender())) {
 +            this.sendDisguisedChatMessage(message.decoratedContent(), params);
 +            return;
 +        }
-+        // Paper end
++        // CraftBukkit end
          this.send(new ClientboundPlayerChatPacket(message.link().sender(), message.link().index(), message.signature(), message.signedBody().pack(this.messageSignatureCache), message.unsignedContent(), message.filterMask(), params.toNetwork(this.player.level.registryAccess())));
          this.addPendingMessage(message);
      }

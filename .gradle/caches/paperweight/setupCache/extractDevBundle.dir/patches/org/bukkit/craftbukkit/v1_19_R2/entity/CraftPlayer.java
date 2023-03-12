@@ -1068,21 +1068,27 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         this.sendSignChange0(components, loc, dyeColor, hasGlowingText); // Paper
     }
 
-    // Paper start
     @Override
-    public void sendEquipmentChange(LivingEntity entity, Map<EquipmentSlot, ItemStack> equipmentChanges) {
+    public void sendEquipmentChange(LivingEntity entity, EquipmentSlot slot, ItemStack item) {
+        this.sendEquipmentChange(entity, Map.of(slot, item));
+    }
+
+    @Override
+    public void sendEquipmentChange(LivingEntity entity, Map<EquipmentSlot, ItemStack> items) {
         Preconditions.checkArgument(entity != null, "entity must not be null");
-        Preconditions.checkNotNull(equipmentChanges, "equipmentChanges must not be null");
+        Preconditions.checkArgument(items != null, "items must not be null");
 
-        if (this.getHandle().connection == null) return;
-
-        List<Pair<net.minecraft.world.entity.EquipmentSlot, net.minecraft.world.item.ItemStack>> equipment = new ArrayList<>(equipmentChanges.size());
-        for (Map.Entry<EquipmentSlot, ItemStack> entry : equipmentChanges.entrySet()) {
-            Preconditions.checkNotNull(entry.getKey(), "EquipmentSlot key must not be null");
-            Preconditions.checkNotNull(entry.getValue(), "ItemStack value must not be null");
-            equipment.add(new Pair<>(CraftEquipmentSlot.getNMS(entry.getKey()), CraftItemStack.asNMSCopy(entry.getValue())));
+        if (this.getHandle().connection == null) {
+            return;
         }
-        // Paper end
+
+        List<Pair<net.minecraft.world.entity.EquipmentSlot, net.minecraft.world.item.ItemStack>> equipment = new ArrayList<>(items.size());
+        for (Map.Entry<EquipmentSlot, ItemStack> entry : items.entrySet()) {
+            EquipmentSlot slot = entry.getKey();
+            Preconditions.checkArgument(slot != null, "Cannot set null EquipmentSlot");
+
+            equipment.add(new Pair<>(CraftEquipmentSlot.getNMS(slot), CraftItemStack.asNMSCopy(entry.getValue())));
+        }
 
         this.getHandle().connection.send(new ClientboundSetEquipmentPacket(entity.getEntityId(), equipment));
     }
@@ -1901,14 +1907,12 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 
     @Override
     public boolean canSee(org.bukkit.entity.Entity entity) {
-        return !this.hiddenEntities.containsKey(entity.getUniqueId());
+        return this.canSee(entity.getUniqueId());
     }
 
-    // Paper start
-    public boolean canSee(UUID entityUUID) {
-        return !this.hiddenEntities.containsKey(entityUUID);
+    public boolean canSee(UUID uuid) {
+        return !this.hiddenEntities.containsKey(uuid);
     }
-    // Paper end
 
     @Override
     public Map<String, Object> serialize() {

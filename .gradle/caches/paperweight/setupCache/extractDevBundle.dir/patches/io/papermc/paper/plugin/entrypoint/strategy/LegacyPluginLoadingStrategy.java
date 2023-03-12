@@ -112,7 +112,7 @@ public class LegacyPluginLoadingStrategy<T> implements ProviderLoadingStrategy<T
                 }
             }
 
-            Collection<String> loadBeforeSet = provider.getMeta().getPluginSoftDependencies();
+            Collection<String> loadBeforeSet = provider.getMeta().getLoadBeforePlugins();
             if (loadBeforeSet != null && !loadBeforeSet.isEmpty()) {
                 for (String loadBeforeTarget : loadBeforeSet) {
                     if (softDependencies.containsKey(loadBeforeTarget)) {

@@ -3,7 +3,6 @@ package me.wally.skratchplugin;
 import me.wally.skratchplugin.listeners.ClientPacketListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.messaging.Messenger;
 
 public final class SkratchPlugin extends JavaPlugin {
 
@@ -18,7 +17,6 @@ public final class SkratchPlugin extends JavaPlugin {
         instance = this;
 
         Bukkit.getMessenger().registerIncomingPluginChannel(this, "skratch:generic-handshake-packet", new ClientPacketListener(this));
-        //var genericHandshakePacket = Messenger.registerIncomingPluginChannel(this, "skratch:generic-handshake-packet", new ClientPacketListener());
 
     }
 
